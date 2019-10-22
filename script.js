@@ -32,14 +32,17 @@
 
 // a. Set date at top of page (function showTodaysDate) --> moment.js
 //function showTodaysDate() {
-var now = moment();
-$("#currentDay").text(moment(now).format("h:mm:ss a"));
+var now = moment().format ('dddd, MMMM Do');
+$("#currentDay").text(now);
 
 // b. function to build scheduler Rows (function buildRows) --> loop, moment.js
 var timeSlots = ["9am","10am","11am","12pm","1pm","2pm","3pm","4pm","5pm"];
 function buildRows(){
-  for (var i = 0; i < 9; i++){
+  var tableEl = $("<table></table>");
+  for (var i = 0; i < timeSlots.length; i++){
     var rowEl = $("<tr>");
+    tableEl.append(rowEl);
+
     var hourEl = $("<td>");
     var taskEl = $("<td>");
     var saveCol = $("<td>");
