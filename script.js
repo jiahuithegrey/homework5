@@ -40,7 +40,7 @@ var timeSlots = ["9am","10am","11am","12pm","1pm","2pm","3pm","4pm","5pm"];
 function buildRows(){
   var tableEl = $("<table></table>");
   for (var i = 0; i < timeSlots.length; i++){
-    var rowEl = $("<tr>");
+    var rowEl = $("<tr id='9am'>");
     tableEl.append(rowEl);
 
     var hourEl = $("<td>");
@@ -51,31 +51,53 @@ function buildRows(){
     saveBtn.addClass("saveBtn");
 
     rowEl.addClass("row");
-    rowEl.append(hourEl);
-    rowEl.append(taskEl);
-    rowEl.append(saveCol);
+    rowEl.append(hourEl, taskEl, saveCol);
 
     hourEl.attr("data-letter", timeSlots[i]);
     hourEl.text(timeSlots[i]);
     hourEl.addClass("time-block");
 
-    var userInput = $("<textarea>");
+    var userInput = $("<textarea></textarea>");
+    var todo = localStorage.getItem(timeSlots[i]);
+    // if data exists in localstorage for this row, show the task here
+    // TODO: finsish later
+    taskEl.text(todo);
     taskEl.append(userInput);
+
+    $(".container").append(tableEl);
   }
 }
+
 // c. Save button event handler (function saveRow) --> uses localstorage
-var todo = localStorage.getItem("todo");
-taskEl.text(todo);
-function saveRow() {
-  saveBtn.on("click", function() {
-  taskEl.text(todo);
-  localStorage.setItem("todo", todo);
-  });
+$(".saveBtn").on("click", function() { 
+  // this = button that was clicked
+  var row;
+  saveRow(row);
+});
+
+function saveRow(row) {
+  var taskEl; // navigate from row to task box
+  var todo = taskEl.text();
+  localStorage.setItem(row.id, todo);
 }
+
 // d. Change row styles--> moment.js
 function updateRowStyle() {
-  // TODO - finish
   // i. on page load, check current time (hourEl) against rows in scheduler
   // ii. update style for those that are past hours, present hourEl, future hours
+  var timePlaceholder;
+
+  if (timenow = timePlaceholder){
+    taskEl.addClass("present");
+  }
+  if (timenow > timePlaceholder){
+    taskEl.addClass("future");
+  }
+  if (timenow < timePlaceholder){
+    taskEl.addClass("past");
+  }
 }
 buildRows();
+
+//call functions!
+//parent.parent....
